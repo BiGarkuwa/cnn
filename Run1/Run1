@@ -5,12 +5,14 @@ import cv2
 import numpy as np
 
 (symbol, text, connector) = (0, 1, 2)
-stepSize = 15
+stepSize = 10
 (w_width, w_height) = (25, 25)  # window size
 
 list_labels = list()
 list_window = list()
 test_window = list()
+test_window1 = list()
+output = list()
 
 symbol = cv2.imread('/Users/b.i.garkuwa/Desktop/MSc Project/Datasets/Judy1_anon_symbols.jpg', 0)
 print(symbol.shape)
@@ -289,7 +291,7 @@ for x in range(0, connector7.shape[0] - w_width, stepSize):
 list_window = np.asarray(list_window)
 list_labels = np.asarray(list_labels)
 
-list_window = list_window.reshape((43744, 25, 25, 1))
+list_window = list_window.reshape((98460, 25, 25, 1))
 list_window = list_window.astype('float32') / 255
 
 #print(list_window)
@@ -332,22 +334,45 @@ for x in range(0, image.shape[0] - w_width, stepSize):
     for y in range(0, image.shape[1] - w_height, stepSize):
         prov_window = image[x:x + w_width, y:y + w_height]
         if prov_window[int(w_width / 2), int(w_height / 2)] == 0:
-            flattened_window = test_window.append(prov_window.flatten())
-            label = model.predict_classes(flattened_window)
-            output.append[x, y, label]
+            test_window.append(prov_window.flatten())
+            test_window = np.asarray(test_window)
+            test_window = test_window.reshape((10697, 25, 25, 1))
+            label = model.predict_classes(test_window)
+            output.append([x, y, label])
+
+print(output)
 
 
+image1 = cv2.imread('/Users/b.i.garkuwa/Desktop/MSc Project/Datasets/Judy2_anon.jpg', 0)
+print(image1.shape)
 
-#image1 = cv2.imread('/Users/b.i.garkuwa/Desktop/MSc Project/Datasets/Judy2_anon.jpg', 0)
-#print(image1.shape)
+ret, image1 = cv2.threshold(image1, 180, 255, cv2.THRESH_BINARY)
 
-#ret, image1 = cv2.threshold(image1, 180, 255, cv2.THRESH_BINARY)
+for x in range(0, image1.shape[0] - w_width, stepSize):
+    for y in range(0, image1.shape[1] - w_height, stepSize):
+        prov_window = image1[x:x + w_width, y:y + w_height]
+        if prov_window[int(w_width / 2), int(w_height / 2)] == 0:
+            test_window2.append(prov_window.flatten())
+            test_window2 = np.asarray(test_window2)
+            test_window2 = test_window2.reshape((16485, 25, 25, 1))
+            label = model.predict_classes(test_window2)
+            output.append([x, y, label])
 
-#for x in range(0, image1.shape[0] - w_width, stepSize):
-    #for y in range(0, image1.shape[1] - w_height, stepSize):
-     #   prov_window = image1[x:x + w_width, y:y + w_height]
-      #  if prov_window[int(w_width / 2), int(w_height / 2)] == 0:
-       #     test_window.append(prov_window.flatten())
+image2 = cv2.imread('/Users/b.i.garkuwa/Desktop/MSc Project/Datasets/Judy3_anon.jpg', 0)
+
+ret, image2 = cv2.threshold(image2, 180, 255, cv2.THRESH_BINARY)
+for x in range(0, image2.shape[0] - w_width, stepSize):
+    for y in range(0, image2.shape[1] - w_height, stepSize):
+        prov_window = image2[x:x + w_width, y:y + w_height]
+        if prov_window[int(w_width / 2), int(w_height / 2)] == 0:
+            test_window3.append(prov_window.flatten())
+            test_window3 = np.asarray(test_window3)
+            test_window3 = test_window3.reshape((12177, 25, 25, 1))
+            label = model.predict_classes(test_window3)
+            output.append([x, y, label])
 #print(test_window)
 
 
+test_window2 = list()
+test_window3 = list()
+print(test_window3.shape)
